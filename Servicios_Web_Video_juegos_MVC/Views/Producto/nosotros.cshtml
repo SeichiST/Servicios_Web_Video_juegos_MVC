@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Sobre Nosotros";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/header.css">
+    <link rel="stylesheet" href="~/css/footer.css">
+    <link rel="stylesheet" href="~/css/nosotros.css">
+</head>
+
+<body style="background-color: rgb(69, 69, 155);">
+    @await Html.PartialAsync("_Header")
+
+    <section>
+        <div class="Integrantes">
+            <h2>Integrantes</h2>
+            <div class="Perfil">
+                <figure>
+                    <img src="~/img/Gato1.gif" alt="Avatar integrante">
+                    <figcaption class="fs-6">xxxxxxxxxxx</figcaption>
+                </figure>
+                <figure>
+                    <img src="~/img/Gato2.gif" alt="Avatar integrante">
+                    <figcaption class="fs-6">Sergio Seichi Susuki Toguchi</figcaption>
+                </figure>
+                <figure>
+                    <img src="~/img/Gato3.gif" alt="Avatar integrante">
+                    <figcaption class="fs-6">xxxxxxxxxxxxxxxxxx</figcaption>
+                </figure>
+                <figure>
+                    <img src="~/img/Gato4.gif" alt="Avatar integrante">
+                    <figcaption class="fs-6">Rolando Mateo Liendo Rodríguez</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <div class="Nosotros">
+            <h1><strong><u>Sobre Nosotros</u></strong></h1>
+            <p>Nacimos con una misión simple: conectar a los jugadores con las mejores experiencias. No somos solo una tienda, somos gamers apasionados como tú.<br><br></p>
+            <p>Desde 2024, nos hemos dedicado a traer los últimos lanzamientos, consolas y accesorios a precios justos para toda la comunidad en Perú.<br><br></p>
+            <p>¡Gracias por elegirnos!</p>
+        </div>
+    </section>
+
+    @await Html.PartialAsync("_Footer")
+</body>

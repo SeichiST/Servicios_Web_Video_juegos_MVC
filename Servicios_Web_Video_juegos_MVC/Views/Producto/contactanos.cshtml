@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Contáctanos";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/header.css">
+    <link rel="stylesheet" href="~/css/footer.css">
+    <link rel="stylesheet" href="~/css/contacto.css">
+</head>
+
+<body>
+    @await Html.PartialAsync("_Header")
+
+    <section>
+        <div class="contenedor">
+            <div class="marcoContacto">
+                <h1 class="main-title text-center"><i></i>Contáctanos</h1>
+
+                <div class="formulario" id="form-contacto">
+                    <form method="post">
+                        <div class="row mb-3 align-items-center">
+                            <div class="col-3"><label class="form-label text-white">Nombre</label></div>
+                            <div class="col-9"><input type="text" class="form-control" placeholder="Tu nombre"></div>
+                        </div>
+
+                        <div class="row mb-3 align-items-center">
+                            <div class="col-3"><label class="form-label text-white">Correo</label></div>
+                            <div class="col-9"><input type="email" class="form-control" placeholder="correo@ejemplo.com"></div>
+                        </div>
+
+                        <div class="row mb-3 align-items-start">
+                            <div class="col-3"><label for="mensaje" class="form-label text-white">Mensaje</label></div>
+                            <div class="col-9">
+                                <textarea id="mensaje" name="mensaje" class="form-control" rows="4" placeholder="Ingresa el mensaje (Máximo 200 caracteres)" maxlength="200" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button class="btn enviar" type="submit">Enviar Mensaje</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @await Html.PartialAsync("_Footer")
+</body>

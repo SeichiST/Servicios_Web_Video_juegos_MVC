@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/header.css">
+    <link rel="stylesheet" href="~/css/footer.css">
+    <link rel="stylesheet" href="~/css/inicio.css">
+</head>
+
+<body>
+    @await Html.PartialAsync("_Header")
+
+    <main class="container-fluid hero-main">
+        <div class="row">
+            <section class="col-lg-5 p-5 hero-content-left">
+                <h1 class="display-3 fw-bold"><span class="text-warning">MundoGamer</span></h1>
+                <p class="lead text-muted my-3">
+                    ¡Bienvenido a la comunidad gamer más grande! Encuentra los mejores títulos,
+                    reseñas exclusivas y todo el equipo que necesitas para llevar tu experiencia de juego al
+                    siguiente nivel. Tu próxima aventura comienza aquí.
+                </p>
+
+                <div class="social-links mt-4">
+                    <a href="" class="text-muted me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="" class="text-muted me-3"><i class="bi bi-twitter-x"></i></a>
+                    <a href="" class="text-muted me-3"><i class="bi bi-discord"></i></a>
+                </div>
+            </section>
+
+            <section class="col-lg-7">
+                <video class="video" autoplay muted loop playsinline>
+                    <source src="~/img/Manos.webm" type="video/webm">
+                </video>
+            </section>
+        </div>
+    </main>
+
+    @await Html.PartialAsync("_Footer")
+</body>

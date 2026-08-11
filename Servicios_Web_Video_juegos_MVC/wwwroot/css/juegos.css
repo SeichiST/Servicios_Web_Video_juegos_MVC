@@ -1,0 +1,12 @@
+:root {
+    --color-acento-principal: rgb(242, 64, 93);
+    --color-fondo-principal: rgb(69, 69, 155);
+    --color-secundario-claro: rgb(255, 127, 127);
+}
+
+.GameCardLink:hover .h-100 {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    cursor: pointer;
+}

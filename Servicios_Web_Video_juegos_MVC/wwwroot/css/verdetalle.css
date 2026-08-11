@@ -1,0 +1,13 @@
+    .card-detalle {
+        max-width: 900px;
+        margin: auto;
+        margin-top: 40px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        border-radius: 15px;
+    }
+    .img-juego {
+        width: 250px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }

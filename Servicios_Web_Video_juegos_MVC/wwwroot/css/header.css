@@ -1,0 +1,93 @@
+header {
+    padding: 15px 25px;
+    background-color:rgb(242, 64, 93);
+}
+
+#Buscar {
+    background-color: plum;
+    border: none;
+    margin-left: 20px;
+}
+
+.BarraBusqueda {
+    width: 350px;
+}
+.navbar-nav .nav-link {
+    font-style: italic;
+    color: white;
+}
+
+header img{
+    height: 50px;
+    width: 50px;
+    margin: 2px 10px;
+    border-radius: 10%;
+}
+
+#menu {
+    margin-left: -50px;
+}
+
+.carrito {
+    margin-right: 10px;
+}
+.dropdown-menu {
+    background-color: rgb(69, 69, 155);
+    border: 2px solid rgb(242, 64, 93);
+    border-radius: 10px;
+    padding: 10px 0;
+}
+
+.dropdown-header {
+    color: white;
+    padding: 10px 20px;
+}
+
+.dropdown-header small {
+    color: rgba(255,255,255,0.7) !important;
+}
+
+.dropdown-item {
+    color: white;
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: rgb(242, 64, 93);
+    color: white;
+}
+
+.dropdown-item.text-danger:hover {
+    background-color: #dc3545;
+    color: white !important;
+}
+
+.dropdown-divider {
+    border-top-color: rgba(255,255,255,0.2);
+}
+
+/* Animación para el carrito */
+.carrito a {
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.carrito a:hover {
+    transform: scale(1.1);
+}
+
+/* Estilo para el botón de usuario */
+.btn.dropdown-toggle {
+    border-radius: 20px;
+    padding: 8px 15px;
+}
+
+.btn.dropdown-toggle:hover {
+    background-color: rgb(242, 64, 93) !important;
+    border-color: rgb(242, 64, 93) !important;
+}
+
+.btn.dropdown-toggle::after {
+    margin-left: 10px;
+}

@@ -1,0 +1,33 @@
+html, body {
+    height: 100%; 
+    margin: 0;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    padding: 0 10px;
+    align-items: center;
+    background-color: rgb(242, 64, 93);
+    display: flex;
+    justify-content: space-between;
+	flex-shrink: 0
+}
+footer p {
+    margin: 15px 20px;
+
+}
+footer img {
+    padding: 5px;
+    max-height: 70px;
+    width: 60px;
+    height: 60px;
+}
+.flex-grow-1 { 
+    flex: 1; 
+}
+#contenido-principal {
+    flex: 1; 
+}

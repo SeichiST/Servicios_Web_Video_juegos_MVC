@@ -1,0 +1,70 @@
+body {
+    background-image: url('/img/FondoInicio.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;   
+}
+
+.hero-main {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+.hero-main .col-lg-7 {
+    display: flex;
+    align-items: flex-end;
+	justify-content: center;
+    padding-bottom: 0 !important;
+}
+.video {
+    width: 80%;
+    height: auto;
+	display: block;
+	margin-bottom: 0 !important;
+  	margin-top: 20px; 
+}
+.welcome-section {
+        background-color: rgba(147, 112, 219, 0.3);
+        border-radius: 20px;
+        padding: 30px;
+        margin-top: 20px;
+        backdrop-filter: blur(5px);
+    }
+    
+.welcome-title {
+    color: white;
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+.welcome-name {
+    color: rgb(242, 64, 93);
+    font-size: 2.8em;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.btn-logout {
+    background-color: rgb(242, 64, 93);
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: rgb(255, 127, 127);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(242, 64, 93, 0.4);
+}
+
+.login-form input {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.login-form input:focus {
+    border-color: rgb(242, 64, 93);
+    box-shadow: 0 0 0 0.2rem rgba(242, 64, 93, 0.25);
+    }

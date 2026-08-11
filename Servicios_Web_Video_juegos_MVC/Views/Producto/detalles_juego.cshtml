@@ -1,0 +1,35 @@
+﻿@model Servicios_Web_Video_juegos_MVC.Models.Juego
+@{
+    ViewData["Title"] = "Detalle del Juego";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/header.css">
+    <link rel="stylesheet" href="~/css/footer.css">
+    <link rel="stylesheet" href="~/css/juegos.css">
+</head>
+
+<body style="background-color: rgb(69, 69, 155);">
+    @await Html.PartialAsync("_Header")
+
+    <div class="container my-5">
+        <div class="card text-white p-4" style="background-color: rgba(0,0,0,0.3); border-radius: 15px;">
+            <div class="row align-items-center">
+                <div class="col-md-5 text-center">
+                    <img src="~/uploads/ImgJuegos/@Model.Imagen" class="img-fluid rounded" style="max-height: 400px; object-fit: cover;" alt="Portada de @Model.Descripcion">
+                </div>
+                <div class="col-md-7">
+                    <h1 class="display-5 text-warning mb-3">@Model.Descripcion</h1>
+                    <h3 class="text-light mb-4">Precio: <span class="text-success">S/. @Model.Precio.ToString("N2")</span></h3>
+                    <p class="fs-5">Código de Categoría: <strong>@Model.IdCategoria</strong></p>
+
+                    <div class="mt-4">
+                        <a asp-controller="Producto" asp-action="Juegos" class="btn btn-outline-light btn-lg me-2">Volver al catálogo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @await Html.PartialAsync("_Footer")
+</body>

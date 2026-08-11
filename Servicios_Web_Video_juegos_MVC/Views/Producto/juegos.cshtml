@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Servicios_Web_Video_juegos_MVC.Models.Juego>
+@{
+    ViewData["Title"] = "Catálogo de Juegos";
+    var categorias = ViewBag.LstCategoria as List<Servicios_Web_Video_juegos_MVC.Models.Categoria> ?? new List<Servicios_Web_Video_juegos_MVC.Models.Categoria>();
+    string? idCatSel = ViewBag.IdCategoriaSel as string;
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/header.css">
+    <link rel="stylesheet" href="~/css/footer.css">
+    <link rel="stylesheet" href="~/css/juegos.css">
+</head>
+
+<body style="background-color: rgb(69, 69, 155);">
+    @await Html.PartialAsync("_Header")
+
+    <div class="flex-grow-1">
+        <div class="container mt-5 mb-5">
+            <div class="row" id="contenido-principal">
+
+                <div class="col-md-3">
+                    <div class="card text-white mb-4" style="background-color: rgba(0,0,0,0.2); border: 1px solid rgb(242, 64, 93);">
+                        <div class="card-header" style="background-color: rgb(242, 64, 93);">
+                            <h4 class="mb-0">Categorías</h4>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <a asp-controller="Producto" asp-action="Juegos"
+                               class="list-group-item list-group-item-action bg-transparent text-white border-secondary @(string.IsNullOrEmpty(idCatSel) ? "bg-danger" : "")">
+                                🎮 Todos los juegos
+                            </a>
+
+                            @foreach (var cat in categorias)
+                            {
+                                <a asp-controller="Producto" asp-action="Juegos" asp-route-idCategoria="@cat.IdCategoria"
+                                   class="list-group-item list-group-item-action bg-transparent text-white border-secondary @(idCatSel == cat.IdCategoria ? "bg-danger" : "")">
+                                    @cat.Descripcion
+                                </a>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-9" id="zona-juegos">
+                    <h2 class="text-white mb-4">Juegos</h2>
+
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                        @foreach (var juego in Model)
+                        {
+                            <div class="col">
+                                <a asp-controller="Producto" asp-action="DetallesJuego" asp-route-id="@juego.IdJuegos" class="text-decoration-none">
+                                    <div class="h-100 d-flex flex-column" style="border-radius: 12px; background-color: rgba(255,255,255,0.05); padding-bottom: 10px;">
+                                        <img src="~/uploads/ImgJuegos/@juego.Imagen" class="card-img-top" style="height: 300px; object-fit: cover; border-radius: 12px 12px 0 0;" alt="Portada">
+                                        <div class="card-body text-center p-3 d-flex flex-column justify-content-center flex-grow-1">
+                                            <h5 class="card-title text-white mb-0">@juego.Descripcion</h5>
+                                            <p class="text-warning fw-bold fs-5 mb-0 mt-1">S/. @juego.Precio.ToString("N2")</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    </div>
+
+                    @if (!Model.Any())
+                    {
+                        <div class="col-12 text-center text-white mt-5">
+                            <i class="bi bi-controller" style="font-size: 3rem;"></i>
+                            <h4>No hay juegos disponibles en esta categoría por ahora.</h4>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @await Html.PartialAsync("_Footer")
+</body>
