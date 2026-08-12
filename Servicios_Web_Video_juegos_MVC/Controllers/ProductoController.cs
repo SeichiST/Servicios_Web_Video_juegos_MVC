@@ -3,10 +3,12 @@ using Newtonsoft.Json;
 using System.Text;
 using Servicios_Web_Video_juegos_MVC.Helpers;
 using Servicios_Web_Video_juegos_MVC.Models;
+using Servicios_Web_Video_juegos_MVC.Filters;
 
 namespace Servicios_Web_Video_juegos_MVC.Controllers
 {
     [Route("producto")]
+    [LoginFilter]
     public class ProductoController : Controller
     {
         private readonly string _apiJuegos = "https://localhost:7017/api/JuegosAPI";
@@ -89,7 +91,9 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
                 }
             }
 
-            return View(juego);
+            return View("detalles_juego",juego);
         }
+
+       
     }
 }
