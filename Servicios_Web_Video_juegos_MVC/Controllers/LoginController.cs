@@ -28,17 +28,10 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
                 };
 
                 string json = JsonConvert.SerializeObject(login);
+                var contenido = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var contenido = new StringContent(
-                    json,
-                    Encoding.UTF8,
-                    "application/json"
-                );
+                var respuesta = await cliente.PostAsync(_apilogin, contenido);
 
-                var respuesta = await cliente.PostAsync(
-                    $"{_apilogin}",
-                    contenido
-                );
                 if (!respuesta.IsSuccessStatusCode)
                 {
                     ViewBag.Mensaje = "Correo o contraseña incorrectos";
@@ -46,7 +39,6 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
                 }
 
                 HttpContext.Session.SetString("UsuarioLogueado", correo);
-
                 return RedirectToAction("Inicio", "Producto");
             }
         }
