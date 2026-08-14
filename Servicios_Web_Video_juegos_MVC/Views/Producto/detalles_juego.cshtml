@@ -23,9 +23,20 @@
                     <h3 class="text-light mb-4">Precio: <span class="text-success">S/. @Model.Precio.ToString("N2")</span></h3>
                     <p class="fs-5">Código de Categoría: <strong>@Model.IdCategoria</strong></p>
 
-                    <div class="mt-4">
-                        <a asp-controller="Producto" asp-action="Juegos" class="btn btn-outline-light btn-lg me-2">Volver al catálogo</a>
-                    </div>
+                    <form asp-controller="Carrito" asp-action="AgregarCarrito" method="post" class="mt-4">
+                        <input type="hidden" name="idJuego" value="@Model.IdJuegos" />
+                        <input type="hidden" name="descripcion" value="@Model.Descripcion" />
+                        <input type="hidden" name="imagen" value="@Model.Imagen" />
+                        <input type="hidden" name="precio" value="@Model.Precio" />
+
+                        <div class="mb-3" style="max-width: 150px;">
+                            <label for="cantidad" class="form-label">Cantidad</label>
+                            <input type="number" id="cantidad" name="cantidad" value="1" min="1" class="form-control" />
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-lg me-2">Agregar al carrito</button>
+                        <a asp-controller="Producto" asp-action="Juegos" class="btn btn-outline-light btn-lg">Volver al catálogo</a>
+                    </form>
                 </div>
             </div>
         </div>

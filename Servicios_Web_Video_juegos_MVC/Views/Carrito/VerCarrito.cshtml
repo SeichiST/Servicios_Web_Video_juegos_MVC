@@ -1,0 +1,55 @@
+﻿@model List<Servicios_Web_Video_juegos_MVC.Models.CarritoItem>
+@{
+    ViewData["Title"] = "Mi Carrito";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/header.css">
+    <link rel="stylesheet" href="~/css/footer.css">
+</head>
+
+<body style="background-color: rgb(69, 69, 155);">
+    @await Html.PartialAsync("_Header")
+
+    <div class="container my-5 text-white">
+        <h1 class="text-warning mb-4">Mi Carrito</h1>
+
+        @if (!Model.Any())
+        {
+            <p class="fs-5">Tu carrito está vacío.</p>
+            <a asp-controller="Producto" asp-action="Juegos" class="btn btn-outline-light">Ir al catálogo</a>
+        }
+        else
+        {
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Juego</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><img src="~/uploads/ImgJuegos/@item.Imagen" style="width: 60px;" /></td>
+                            <td>@item.Descripcion</td>
+                            <td>S/. @item.Precio.ToString("N2")</td>
+                            <td>@item.Cantidad</td>
+                            <td>S/. @item.Subtotal.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <h4 class="text-end">Total: S/. @Model.Sum(i => i.Subtotal).ToString("N2")</h4>
+
+            <a asp-controller="Producto" asp-action="Juegos" class="btn btn-outline-light">Seguir comprando</a>
+        }
+    </div>
+
+    @await Html.PartialAsync("_Footer")
+</body>
