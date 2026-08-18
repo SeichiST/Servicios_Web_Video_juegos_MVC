@@ -21,12 +21,7 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
         {
             using (HttpClient cliente = new HttpClient())
             {
-                var login = new LoginRequestDto
-                {
-                    Correo = correo,
-                    Password = password
-                };
-
+                var login = new LoginRequestDto { Correo = correo, Password = password };
                 string json = JsonConvert.SerializeObject(login);
                 var contenido = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -38,7 +33,12 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
                     return View("Index");
                 }
 
+                string contenidoRespuesta = await respuesta.Content.ReadAsStringAsync();
+                var cliente_ = JsonConvert.DeserializeObject<ClienteDto>(contenidoRespuesta);
+
                 HttpContext.Session.SetString("UsuarioLogueado", correo);
+                HttpContext.Session.SetInt32("IdCliente", cliente_.IdCliente);
+
                 return RedirectToAction("Inicio", "Producto");
             }
         }

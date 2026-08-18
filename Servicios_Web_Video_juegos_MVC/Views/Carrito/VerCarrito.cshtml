@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Mi Carrito";
 }
-
+    
 <head>
     <link rel="stylesheet" href="~/css/header.css">
     <link rel="stylesheet" href="~/css/footer.css">
@@ -47,9 +47,44 @@
 
             <h4 class="text-end">Total: S/. @Model.Sum(i => i.Subtotal).ToString("N2")</h4>
 
+            <form id="formGenerarVenta" asp-controller="Carrito" asp-action="GenerarVenta" method="post" class="text-end">
+                <button type="button" id="btnGenerarVenta" class="btn btn-success btn-lg">Generar venta</button>
+            </form>
+
+            <script>
+                        document.getElementById('btnGenerarVenta').addEventListener('click', function() {
+                            Swal.fire({
+                                title: '¿Confirmar compra?',
+                                text: 'Se registrará la venta con los juegos de tu carrito.',
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonText: 'Sí, comprar',
+                                cancelButtonText: 'Cancelar',
+                                confirmButtonColor: '#198754',
+                                cancelButtonColor: '#6c757d'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    document.getElementById('formGenerarVenta').submit();
+                                }
+                            });
+                        });
+            </script>
+
             <a asp-controller="Producto" asp-action="Juegos" class="btn btn-outline-light">Seguir comprando</a>
         }
     </div>
 
     @await Html.PartialAsync("_Footer")
+    @if (TempData["mensaje"] != null)
+    {
+        <script>
+                Swal.fire({
+                    title: '@(TempData["exito"] != null ? "¡Compra exitosa!" : "Aviso")',
+                    text: '@Html.Raw(TempData["mensaje"])',
+                    icon: '@(TempData["exito"] != null ? "success" : "warning")',
+                    confirmButtonColor: '#198754'
+                });
+        </script>
+    }
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
