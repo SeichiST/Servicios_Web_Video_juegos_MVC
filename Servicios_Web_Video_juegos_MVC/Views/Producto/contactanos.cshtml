@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Servicios_Web_Video_juegos_MVC.Models.ContactoViewModel
+
+@{
     ViewData["Title"] = "Contáctanos";
 }
 
@@ -15,23 +17,45 @@
         <div class="contenedor">
             <div class="marcoContacto">
                 <h1 class="main-title text-center"><i></i>Contáctanos</h1>
+                @if (TempData["MensajeExito"] != null) {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @TempData["MensajeExito"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
 
+                @if (TempData["MensajeError"] != null) {
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        @TempData["MensajeError"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
                 <div class="formulario" id="form-contacto">
-                    <form method="post">
+                    <form asp-controller="Producto" asp-action="Contactanos" method="post">
                         <div class="row mb-3 align-items-center">
-                            <div class="col-3"><label class="form-label text-white">Nombre</label></div>
-                            <div class="col-9"><input type="text" class="form-control" placeholder="Tu nombre"></div>
+                            <div class="col-3">
+                                <label asp-for="Nombre" class="form-label text-white">Nombre</label>
+                            </div>
+                            <div class="col-9">
+                                <input asp-for="Nombre" value="@Model.Nombre" class="form-control" placeholder="Tu nombre" readonly />
+                            </div>
                         </div>
 
                         <div class="row mb-3 align-items-center">
-                            <div class="col-3"><label class="form-label text-white">Correo</label></div>
-                            <div class="col-9"><input type="email" class="form-control" placeholder="correo@ejemplo.com"></div>
+                            <div class="col-3">
+                                <label asp-for="Correo" class="form-label text-white">Correo</label>
+                            </div>
+                            <div class="col-9">
+                                <input asp-for="Correo" value="@Model.Correo" type="email" class="form-control" placeholder="correo@ejemplo.com" readonly />
+                            </div>
                         </div>
 
                         <div class="row mb-3 align-items-start">
-                            <div class="col-3"><label for="mensaje" class="form-label text-white">Mensaje</label></div>
+                            <div class="col-3">
+                                <label asp-for="Mensaje" class="form-label text-white">Mensaje</label>
+                            </div>
                             <div class="col-9">
-                                <textarea id="mensaje" name="mensaje" class="form-control" rows="4" placeholder="Ingresa el mensaje (Máximo 200 caracteres)" maxlength="200" required></textarea>
+                                <textarea asp-for="Mensaje" class="form-control" rows="4" placeholder="Ingresa el mensaje (Máximo 200 caracteres)" maxlength="200" required></textarea>
                             </div>
                         </div>
 

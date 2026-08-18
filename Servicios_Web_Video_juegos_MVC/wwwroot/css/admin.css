@@ -1,0 +1,62 @@
+:root {
+    --color-fondo-principal: rgb(69, 69, 155);
+    --color-acento-principal: rgb(242, 64, 93);
+}
+
+body {
+    background-color: var(--color-fondo-principal) !important;
+    color: white !important;
+}
+
+.card-admin {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid var(--color-acento-principal) !important;
+    border-radius: 12px;
+}
+
+.table thead {
+    background-color: var(--color-acento-principal) !important;
+    color: white !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+}
+
+.btn-success {
+    background-color: var(--color-acento-principal) !important;
+    border: none !important;
+}
+
+.btn-primary {
+    background-color: rgb(85, 85, 200) !important;
+    border: none !important;
+}
+
+.card-admin .form-control,
+.card-admin .form-select {
+    background-color: rgb(0, 0, 0, 0.4) !important;
+    border: 1px solid var(--color-acento-principal) !important;
+    color: white !important;
+    border-radius: 5px;
+	transition: all 0.3s ease;
+}
+
+.card-admin .form-control:focus,
+.card-admin .form-select:focus {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+	border-color: var(--color-acento-principal) !important; 
+    box-shadow: 0 0 8px rgba(242, 64, 93, 0.5) !important;
+    outline: none;
+    color: white !important;
+}
+
+.card-admin .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.card-admin .form-select option {
+    background-color: var(--color-fondo-principal); 
+    color: white;
+}

@@ -1,0 +1,49 @@
+.dt-container .dt-length label,
+.dt-container .dt-search label,
+.dt-container .dt-info {
+    color: white !important; 
+    font-weight: 500;
+}
+
+.dt-container .dt-search input,
+.dt-container .dt-length select {
+    background-color: transparent !important;
+    color: white !important;
+    border: 1px solid var(--color-acento-principal) !important;
+    border-radius: 5px;
+    padding: 4px 10px;
+}
+
+.dt-container .dt-search input:focus,
+.dt-container .dt-length select:focus {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    color: white !important;
+    box-shadow: 0 0 5px var(--color-acento-principal) !important;
+    outline: none;
+}
+
+table.dataTable tbody tr,
+table.dataTable tbody td {
+    background-color: transparent !important;
+    color: white !important;
+	border: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--color-acento-principal) !important;
+    border-color: var(--color-acento-principal) !important;
+    color: white !important;
+}
+
+.pagination .page-link {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+.pagination .page-link:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: var(--color-acento-principal) !important;
+}
+

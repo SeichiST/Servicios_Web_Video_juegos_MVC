@@ -1,0 +1,20 @@
+﻿<div class="sidebar p-3 d-flex flex-column" style="width: 250px; background-color: rgba(0, 0, 0, 0.3); min-height: 100vh;">
+    <a asp-controller="Producto" asp-action="Inicio" class="text-white text-decoration-none text-center mb-4 mt-2">
+        <h3 style="color: var(--color-acento-principal); font-weight: bold;">MundoGamer</h3>
+        <small>Panel de Control</small>
+    </a>
+    <hr class="text-white">
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item mb-2">
+            <a asp-controller="Admin" asp-action="ListaUsuarios" class="nav-link text-white active"
+               style="background-color: var(--color-acento-principal);">
+                <i class="bi bi-people-fill"></i> Usuarios
+            </a>
+        </li>
+    </ul>
+    <div class="text-center mt-auto">
+        <a asp-controller="Login" asp-action="Logout" class="btn btn-link text-danger text-decoration-none">
+            <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+        </a>
+    </div>
+</div>

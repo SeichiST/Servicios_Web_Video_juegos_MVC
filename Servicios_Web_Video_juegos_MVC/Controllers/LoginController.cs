@@ -33,6 +33,30 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
                     return View("Index");
                 }
 
+                // 1. Leemos el cuerpo de la respuesta de la API UNA SOLA VEZ
+                string respuestaJson = await respuesta.Content.ReadAsStringAsync();
+
+                // 2. Deserializamos la respuestaDTO ligera enviada por la API
+                var datosCliente = JsonConvert.DeserializeObject<LoginResponseDto>(respuestaJson);
+
+                // 3. Evaluamos si el usuario tiene el rol de Administrador
+                bool esAdmin = datosCliente?.IdRols?.Any(r => r.Nombre == "ROLE_ADMIN") ?? false;
+
+                // 4. Guardamos los datos en la sesión:
+                //    a) Clave exclusiva para los datos del cliente (usado por el formulario de Contacto)
+                HttpContext.Session.SetString("DatosClienteJson", respuestaJson);
+
+                //    b) Clave para validar permisos de administrador en las vistas o filtros
+                HttpContext.Session.SetString("EsAdmin", esAdmin ? "true" : "false");
+
+                //    c) Clave histórica usada por otros módulos de tu equipo
+                HttpContext.Session.SetString("UsuarioLogueado", correo);
+
+                // REDIRECCIÓN SEGÚN EL ROL
+                if (esAdmin) {
+                    return RedirectToAction("ListaUsuarios", "Admin");
+                }
+
                 string contenidoRespuesta = await respuesta.Content.ReadAsStringAsync();
                 var cliente_ = JsonConvert.DeserializeObject<ClienteDto>(contenidoRespuesta);
 
@@ -42,6 +66,37 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
                 return RedirectToAction("Inicio", "Producto");
             }
         }
+
+        //Arreglo Test [Borrable]
+        //private async Task CrearCookieClaimsDedicada(string jsonUsuario) {
+        //    if (string.IsNullOrWhiteSpace(jsonUsuario)) return;
+
+        //    // Parseo dinámico sin importar el DTO ni las mayúsculas
+        //    using (var doc = System.Text.Json.JsonDocument.Parse(jsonUsuario)) {
+        //        var root = doc.RootElement;
+
+        //        string nombres = root.TryGetProperty("nombres", out var eN) ? eN.GetString() ?? "" :
+        //                         root.TryGetProperty("Nombres", out var eN2) ? eN2.GetString() ?? "" : "";
+
+        //        string apellidos = root.TryGetProperty("apellidos", out var eA) ? eA.GetString() ?? "" :
+        //                           root.TryGetProperty("Apellidos", out var eA2) ? eA2.GetString() ?? "" : "";
+
+        //        string correo = root.TryGetProperty("correo", out var eC) ? eC.GetString() ?? "" :
+        //                        root.TryGetProperty("Correo", out var eC2) ? eC2.GetString() ?? "" : "";
+
+        //        var claims = new List<Claim>
+        //{
+        //    new Claim(ClaimTypes.Name, $"{nombres} {apellidos}".Trim()),
+        //    new Claim(ClaimTypes.Email, correo)
+        //};
+
+        //        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+        //        await HttpContext.SignInAsync(
+        //            CookieAuthenticationDefaults.AuthenticationScheme,
+        //            new ClaimsPrincipal(claimsIdentity));
+        //    }
+        //}
 
         [HttpGet]
         public IActionResult Logout()

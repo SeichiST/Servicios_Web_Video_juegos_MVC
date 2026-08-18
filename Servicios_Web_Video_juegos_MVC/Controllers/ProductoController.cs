@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Text;
+using Newtonsoft.Json.Linq;
+using Servicios_Web_Video_juegos_MVC.Filters;
 using Servicios_Web_Video_juegos_MVC.Helpers;
 using Servicios_Web_Video_juegos_MVC.Models;
-using Servicios_Web_Video_juegos_MVC.Filters;
+using System.Text;
 
 namespace Servicios_Web_Video_juegos_MVC.Controllers
 {
@@ -27,9 +28,53 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
         }
 
         [HttpGet("contactanos")]
-        public IActionResult Contactanos()
-        {
-            return View();
+        public IActionResult Contactanos() {
+            var model = new ContactoViewModel();
+
+            var clienteJson = HttpContext.Session.GetString("DatosClienteJson");
+
+            if (!string.IsNullOrWhiteSpace(clienteJson) && clienteJson != "undefined") {
+                try {
+                    var json = JObject.Parse(clienteJson);
+
+                    string nombres = (string)json["nombres"] ?? (string)json["Nombres"] ?? "";
+                    string apellidos = (string)json["apellidos"] ?? (string)json["Apellidos"] ?? "";
+                    string correo = (string)json["correo"] ?? (string)json["Correo"] ?? "";
+
+                    model.Nombre = $"{nombres} {apellidos}".Trim();
+                    model.Correo = correo;
+                }
+                catch {
+                    model.Correo = HttpContext.Session.GetString("UsuarioLogueado") ?? "";
+                }
+            }
+            else {
+                model.Correo = HttpContext.Session.GetString("UsuarioLogueado") ?? "";
+            }
+
+            return View(model);
+        }
+
+        [HttpPost("contactanos")]
+        public async Task<IActionResult> Contactanos(ContactoViewModel model) {
+            if (!ModelState.IsValid) {
+                return View(model);
+            }
+
+            try {
+                //Generar la plantilla HTML desde el Helper
+                string cuerpoHtml = EmailHelper.GenerarPlantillaConfirmacion(model.Nombre, model.Mensaje);
+
+                //Enviar el correo usando el Helper
+                await EmailHelper.EnviarCorreoAsync(model.Correo, "Confirmación de mensaje recibido - Soporte", cuerpoHtml);
+
+                TempData["MensajeExito"] = "¡Gracias por contactarnos! Se ha enviado un correo de confirmación.";
+            }
+            catch (Exception ex) {
+                TempData["MensajeError"] = "Tu mensaje fue procesado, pero no se pudo enviar el correo de confirmación.";
+            }
+
+            return RedirectToAction("Contactanos");
         }
 
         [HttpGet("juegos")]
