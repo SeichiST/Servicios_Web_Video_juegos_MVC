@@ -14,6 +14,7 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
     {
         private readonly string _apiJuegos = "https://localhost:7017/api/JuegosAPI";
         private readonly string _apiCategorias = "https://localhost:7017/api/CategoriasAPI";
+        private readonly string _apiMensajes = "https://localhost:7017/api/MensajesAPI";
 
         [HttpGet("inicio")]
         public IActionResult Inicio()
@@ -56,22 +57,68 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
         }
 
         [HttpPost("contactanos")]
-        public async Task<IActionResult> Contactanos(ContactoViewModel model) {
-            if (!ModelState.IsValid) {
+        public async Task<IActionResult> Contactanos(ContactoViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
                 return View(model);
             }
 
-            try {
-                //Generar la plantilla HTML desde el Helper
-                string cuerpoHtml = EmailHelper.GenerarPlantillaConfirmacion(model.Nombre, model.Mensaje);
+            try
+            {
+                // 1. Obtener el IdCliente desde la sesión del usuario
+                int idCliente = 0;
+                var clienteJson = HttpContext.Session.GetString("DatosClienteJson");
 
-                //Enviar el correo usando el Helper
-                await EmailHelper.EnviarCorreoAsync(model.Correo, "Confirmación de mensaje recibido - Soporte", cuerpoHtml);
+                if (!string.IsNullOrWhiteSpace(clienteJson) && clienteJson != "undefined")
+                {
+                    var json = JObject.Parse(clienteJson);
+                    idCliente = (int?)json["idCliente"] ?? (int?)json["IdCliente"] ?? 0;
+                }
 
-                TempData["MensajeExito"] = "¡Gracias por contactarnos! Se ha enviado un correo de confirmación.";
+                // 2. Crear el objeto Mensaje a registrar
+                var nuevoMensaje = new Mensaje
+                {
+                    IdCliente = idCliente,
+                    TextoMensaje = model.Mensaje,
+                    FechaEnvio = DateTime.Now,
+                    Estado = "1"
+                };
+
+                // 3. Enviar el mensaje a la API para guardarlo en la base de datos
+                using (HttpClient clienteHttp = new HttpClient())
+                {
+                    var contenido = new StringContent(
+                        JsonConvert.SerializeObject(nuevoMensaje),
+                        Encoding.UTF8,
+                        "application/json");
+
+                    var rpta = await clienteHttp.PostAsync(_apiMensajes, contenido);
+
+                    if (!rpta.IsSuccessStatusCode)
+                    {
+                        string error = await rpta.Content.ReadAsStringAsync();
+                        TempData["MensajeError"] = $"No se pudo guardar el mensaje: {error}";
+                        return View(model);
+                    }
+                }
+
+                // 4. Enviar correo de confirmación (opcional / transaccional)
+                try
+                {
+                    string cuerpoHtml = EmailHelper.GenerarPlantillaConfirmacion(model.Nombre, model.Mensaje);
+                    await EmailHelper.EnviarCorreoAsync(model.Correo, "Confirmación de mensaje recibido - Soporte", cuerpoHtml);
+                }
+                catch
+                {
+                    // Si el correo falla, no interrumpe el registro en BD
+                }
+
+                TempData["MensajeExito"] = "¡Gracias por contactarnos! Tu mensaje fue registrado exitosamente.";
             }
-            catch (Exception ex) {
-                TempData["MensajeError"] = "Tu mensaje fue procesado, pero no se pudo enviar el correo de confirmación.";
+            catch (Exception ex)
+            {
+                TempData["MensajeError"] = $"Error al procesar la solicitud: {ex.Message}";
             }
 
             return RedirectToAction("Contactanos");

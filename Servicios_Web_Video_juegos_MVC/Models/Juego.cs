@@ -7,7 +7,7 @@ public partial class Juego
 {
     public int IdJuegos { get; set; }
 
-    public string IdCategoria { get; set; } = null!;
+    public string? IdCategoria { get; set; }
 
     public string Descripcion { get; set; } = null!;
 
@@ -16,5 +16,7 @@ public partial class Juego
     public string Imagen { get; set; } = null!;
 
     public bool Activo { get; set; }
+
+    public virtual Categoria? Categoria { get; set; }
 
 }

@@ -16,4 +16,5 @@ public partial class Mensaje
     public string Estado { get; set; } = null!;
 
     public virtual Cliente IdClienteNavigation { get; set; } = null!;
+    public virtual Cliente? Cliente { get; set; }
 }

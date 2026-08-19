@@ -6,9 +6,23 @@
     <hr class="text-white">
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item mb-2">
-            <a asp-controller="Admin" asp-action="ListaUsuarios" class="nav-link text-white active"
-               style="background-color: var(--color-acento-principal);">
+            <a asp-controller="Admin" asp-action="ListaJuegos" class="nav-link text-white item-sidebar">
+                <i class="bi bi-joystick"></i> Gestión de Juegos
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a asp-controller="Admin" asp-action="ListaCategorias" class="nav-link text-white item-sidebar">
+                <i class="bi bi-list-stars"></i> Categorías
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a asp-controller="Admin" asp-action="ListaUsuarios" class="nav-link text-white item-sidebar">
                 <i class="bi bi-people-fill"></i> Usuarios
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a asp-controller="Admin" asp-action="ListaMensajes" class="nav-link text-white item-sidebar">
+                <i class="bi bi-chat-left-dots-fill"></i> Mensajes
             </a>
         </li>
     </ul>
