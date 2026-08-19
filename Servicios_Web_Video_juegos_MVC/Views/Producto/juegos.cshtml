@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Servicios_Web_Video_juegos_MVC.Models.Juego>
+﻿@using X.PagedList
+@model IPagedList<Servicios_Web_Video_juegos_MVC.Models.Juego>
 @{
     ViewData["Title"] = "Catálogo de Juegos";
     var categorias = ViewBag.LstCategoria as List<Servicios_Web_Video_juegos_MVC.Models.Categoria> ?? new List<Servicios_Web_Video_juegos_MVC.Models.Categoria>();
@@ -67,7 +68,11 @@
                             <h4>No hay juegos disponibles en esta categoría por ahora.</h4>
                         </div>
                     }
+                    <div class="mt-4">
+                        @await Html.PartialAsync("_Paginador", Model)
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>

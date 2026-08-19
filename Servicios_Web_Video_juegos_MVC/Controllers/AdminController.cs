@@ -326,6 +326,111 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
             return View("modificar-juego", obj);
         }
 
+        [HttpGet("lista-categorias")]
+        public async Task<IActionResult> ListaCategorias()
+        {
+            var listado = new List<Categoria>();
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                var rpta = await httpClient.GetAsync($"{_apiCategorias}/GetCategorias");
+
+                if (rpta.IsSuccessStatusCode)
+                {
+                    string contenido = await rpta.Content.ReadAsStringAsync();
+                    var descompuesto = JsonConvert.DeserializeObject<List<Categoria>>(contenido);
+
+                    if (descompuesto != null)
+                    {
+                        listado = descompuesto;
+                    }
+                }
+            }
+
+            return View("ListaCategorias", listado);
+        }
+
+
+
+        [HttpGet("registrar-categoria")]
+        public IActionResult RegistrarCategoria()
+        {
+            return View(new Categoria());
+        }
+
+        [HttpPost("registrar-categoria")]
+        public async Task<IActionResult> RegistrarCategoria(Categoria categoria)
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                string json = JsonConvert.SerializeObject(categoria);
+                var contenido = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var rpta = await httpClient.PostAsync(_apiCategorias, contenido);
+
+                if (!rpta.IsSuccessStatusCode)
+                {
+                    string error = await rpta.Content.ReadAsStringAsync();
+                    ViewBag.Mensaje = $"No se pudo registrar la categoría: {error}";
+                    return View(categoria);
+                }
+            }
+
+            TempData["Mensaje"] = "Categoría registrada correctamente";
+            return RedirectToAction("ListaCategorias");
+        }
+
+        [HttpGet("modificar-categoria/{id}")]
+        public async Task<IActionResult> ModificarCategoria(string id)
+        {
+            Categoria? categoria = null;
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                var rpta = await httpClient.GetAsync($"{_apiCategorias}/GetCategoria/{id}");
+
+                if (!rpta.IsSuccessStatusCode)
+                {
+                    return NotFound();
+                }
+
+                string contenido = await rpta.Content.ReadAsStringAsync();
+                categoria = JsonConvert.DeserializeObject<Categoria>(contenido);
+            }
+
+            if (categoria == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoria);
+        }
+
+        [HttpPost("modificar-categoria/{id}")]
+        public async Task<IActionResult> ModificarCategoria(string id, Categoria categoria)
+        {
+            if (id != categoria.IdCategoria)
+                return NotFound();
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                string json = JsonConvert.SerializeObject(categoria);
+                var contenido = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var rpta = await httpClient.PutAsync(_apiCategorias, contenido);
+
+                if (!rpta.IsSuccessStatusCode)
+                {
+                    string error = await rpta.Content.ReadAsStringAsync();
+                    ViewBag.Mensaje = $"No se pudo actualizar la categoría: {error}";
+                    return View(categoria);
+                }
+            }
+
+            TempData["Mensaje"] = "Categoría actualizada correctamente";
+            return RedirectToAction("ListaCategorias");
+        }
+
         [HttpGet("lista-mensajes")]
         public async Task<IActionResult> ListaMensajes()
         {

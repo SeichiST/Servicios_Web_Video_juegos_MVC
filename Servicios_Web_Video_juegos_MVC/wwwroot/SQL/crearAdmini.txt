@@ -1,0 +1,18 @@
+{
+  "nombres": "Admin",
+  "apellidos": "Istrador",
+  "dni": "56236223",
+  "direccion": "Av. Admin 123",
+  "telefono": "956894369",
+  "fechaNacimiento": "2026-01-01",
+  "sexo": "F",
+  "correo": "admin@gmail.com",
+  "password": "123",
+  "estado": "1",
+  "idRols": [
+    {
+      "idRol": 2,
+      "nombre": "ROLE_ADMIN"
+    }
+  ]
+}

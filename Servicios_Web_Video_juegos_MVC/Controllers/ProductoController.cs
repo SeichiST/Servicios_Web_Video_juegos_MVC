@@ -66,7 +66,6 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
 
             try
             {
-                // 1. Obtener el IdCliente desde la sesión del usuario
                 int idCliente = 0;
                 var clienteJson = HttpContext.Session.GetString("DatosClienteJson");
 
@@ -76,7 +75,6 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
                     idCliente = (int?)json["idCliente"] ?? (int?)json["IdCliente"] ?? 0;
                 }
 
-                // 2. Crear el objeto Mensaje a registrar
                 var nuevoMensaje = new Mensaje
                 {
                     IdCliente = idCliente,
@@ -85,7 +83,6 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
                     Estado = "1"
                 };
 
-                // 3. Enviar el mensaje a la API para guardarlo en la base de datos
                 using (HttpClient clienteHttp = new HttpClient())
                 {
                     var contenido = new StringContent(
@@ -110,9 +107,7 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
                     await EmailHelper.EnviarCorreoAsync(model.Correo, "Confirmación de mensaje recibido - Soporte", cuerpoHtml);
                 }
                 catch
-                {
-                    // Si el correo falla, no interrumpe el registro en BD
-                }
+                { }
 
                 TempData["MensajeExito"] = "¡Gracias por contactarnos! Tu mensaje fue registrado exitosamente.";
             }
@@ -125,7 +120,7 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
         }
 
         [HttpGet("juegos")]
-        public async Task<IActionResult> Juegos(string? idCategoria, int? page)
+        public async Task<IActionResult> Juegos(string? idCategoria, string? nombre, int? page)
         {
             var listadoJuegos = new List<Juego>();
             var listadoCategorias = new List<Categoria>();
@@ -133,34 +128,43 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
             using (HttpClient cliente = new HttpClient())
             {
                 var rptaJuegos = await cliente.GetAsync($"{_apiJuegos}/GetJuegos");
-                string contenidoJuegos = await rptaJuegos.Content.ReadAsStringAsync();
-                var descompuestoJuegos = JsonConvert.DeserializeObject<List<Juego>>(contenidoJuegos);
-
-                if (descompuestoJuegos != null)
+                if (rptaJuegos.IsSuccessStatusCode)
                 {
-                    listadoJuegos = descompuestoJuegos
-                        .Where(j => j.Activo)
-                        .ToList();
+                    string contenidoJuegos = await rptaJuegos.Content.ReadAsStringAsync();
+                    var descompuestoJuegos = JsonConvert.DeserializeObject<List<Juego>>(contenidoJuegos);
+
+                    if (descompuestoJuegos != null)
+                    {
+                        listadoJuegos = descompuestoJuegos.Where(j => j.Activo).ToList();
+                    }
                 }
 
                 var rptaCat = await cliente.GetAsync($"{_apiCategorias}/GetCategorias");
-                string contenidoCat = await rptaCat.Content.ReadAsStringAsync();
-                var descompuestoCat = JsonConvert.DeserializeObject<List<Categoria>>(contenidoCat);
-
-                if (descompuestoCat != null)
+                if (rptaCat.IsSuccessStatusCode)
                 {
-                    listadoCategorias = descompuestoCat;
+                    string contenidoCat = await rptaCat.Content.ReadAsStringAsync();
+                    var descompuestoCat = JsonConvert.DeserializeObject<List<Categoria>>(contenidoCat);
+
+                    if (descompuestoCat != null)
+                    {
+                        listadoCategorias = descompuestoCat;
+                    }
                 }
             }
-
-            //categorias
             if (!string.IsNullOrEmpty(idCategoria))
             {
                 listadoJuegos = listadoJuegos.Where(j => j.IdCategoria == idCategoria).ToList();
             }
+            if (!string.IsNullOrWhiteSpace(nombre))
+            {
+                listadoJuegos = listadoJuegos
+                    .Where(j => j.Descripcion.Contains(nombre, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
 
             ViewBag.LstCategoria = listadoCategorias;
             ViewBag.IdCategoriaSel = idCategoria;
+            ViewBag.NombreBusqueda = nombre;
 
             var pagedList = PaginacioHelper.PaginarLista(listadoJuegos, page, 9);
             return View(pagedList);
