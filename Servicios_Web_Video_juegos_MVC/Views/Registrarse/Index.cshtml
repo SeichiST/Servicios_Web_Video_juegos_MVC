@@ -1,0 +1,157 @@
+﻿@model Servicios_Web_Video_juegos_MVC.Dto.RegistrarseDto
+
+@{
+    ViewData["Title"] = "Registrarse";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/login.css">
+    <link rel="stylesheet" href="~/css/inicio.css">
+</head>
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <h1 class="login-title">
+            Crear cuenta
+        </h1>
+
+        <p class="login-subtitle">
+            Completa tus datos para registrarte
+        </p>
+
+        @if (ViewBag.Mensaje != null)
+        {
+            <div class="login-error">
+                @ViewBag.Mensaje
+            </div>
+        }
+
+        <form asp-controller="Registrarse"
+              asp-action="Registrarse"
+              method="post"
+              class="login-form">
+
+            <div class="mb-4">
+                <label asp-for="Nombres">
+                    Nombres
+                </label>
+
+                <input asp-for="Nombres"
+                       type="text"
+                       required />
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Apellidos">
+                    Apellidos
+                </label>
+
+                <input asp-for="Apellidos"
+                       type="text"
+                       required />
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Dni">
+                    DNI
+                </label>
+
+                <input asp-for="Dni"
+                       type="text"
+                       maxlength="8"
+                       required />
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Direccion">
+                    Dirección
+                </label>
+
+                <input asp-for="Direccion"
+                       type="text"
+                       required />
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Telefono">
+                    Teléfono
+                </label>
+
+                <input asp-for="Telefono"
+                       type="tel"
+                       maxlength="9"
+                       required />
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="FechaNacimiento">
+                    Fecha de nacimiento
+                </label>
+
+                <input asp-for="FechaNacimiento"
+                       type="date"
+                       required />
+            </div>
+
+            
+            <div class="mb-4">
+                <label asp-for="Sexo">
+                    Sexo
+                </label>
+
+                <select asp-for="Sexo" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Correo">
+                    Correo electrónico
+                </label>
+
+                <input asp-for="Correo"
+                       type="email"
+                       required />
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Password">
+                    Contraseña
+                </label>
+
+                <input asp-for="Password"
+                       type="password"
+                       required />
+            </div>
+
+            <button type="submit" class="btn-login">
+                Registrarse
+            </button>
+
+        </form>
+
+        <div class="login-register">
+            <p>
+                ¿Ya tienes una cuenta?
+            </p>
+
+            <button type="button"
+                    class="btn-login"
+                    onclick="location.href='@Url.Action("Index", "Login")'">
+                Iniciar sesión
+            </button>
+        </div>
+
+        <section class="col-lg-7">
+            <video class="video" autoplay muted loop playsinline>
+                <source src="~/img/Manos.webm" type="video/webm">
+            </video>
+        </section>
+
+    </div>
+
+</div>

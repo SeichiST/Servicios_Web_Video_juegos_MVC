@@ -90,4 +90,51 @@
     text-align: center;
 }
 
+/*estilo boton registrar*/
+.btn-register {
+    background-color: transparent;
+    border: 2px solid rgb(242, 64, 93);
+    color: black;
+    margin-top: 12px;
+}
 
+    .btn-register:hover {
+        background-color: rgba(242, 64, 93, 0.15);
+        transform: translateY(-2px);
+    }
+
+/*estilo registrar form*/
+.login-form select {
+    display: block;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 12px 15px;
+    background-color: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    color: black;
+    font-family: inherit;
+    font-size: 1em;
+    margin-top: 8px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+}
+
+    .login-form select:focus {
+        outline: none;
+        border-color: rgb(242, 64, 93);
+        box-shadow: 0 0 0 0.2rem rgba(242, 64, 93, 0.25);
+    }
+
+.login-form label {
+    display: block;
+    color: black;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
