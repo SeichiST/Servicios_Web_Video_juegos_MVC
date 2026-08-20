@@ -1,9 +1,11 @@
+using Servicios_Web_Video_juegos_MVC.Hubs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
 
 builder.Services.AddSession();
 
@@ -35,11 +37,11 @@ app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
+    name: "rem",
     pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapHub<ChatHub>("/chatHub");
 app.Run();
