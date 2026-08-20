@@ -16,6 +16,7 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
         private readonly string _apiCategorias = "https://localhost:7017/api/CategoriasAPI";
         private readonly string _apiJuegos = "https://localhost:7017/api/JuegosAPI";
         private readonly string _apiMensajes = "https://localhost:7017/api/MensajesAPI";
+        private readonly string _apiVentas = "https://localhost:7017/api/VentasAPI";
         private readonly IWebHostEnvironment _env;
 
 
@@ -462,5 +463,44 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
             return View("lista-mensajes", listadoMensajes.OrderByDescending(m => m.FechaEnvio).ToList());
         }
 
+        //Ventas 
+
+        [HttpGet("lista-ventas")]
+        public async Task<IActionResult> ListaVentas()
+        {
+            var listado = new List<VentaResponseDto>();
+
+            using (HttpClient cliente = new HttpClient())
+            {
+                var rpta = await cliente.GetAsync($"{_apiVentas}/GetVentas");
+                if (rpta.IsSuccessStatusCode)
+                {
+                    string contenido = await rpta.Content.ReadAsStringAsync();
+                    listado = JsonConvert.DeserializeObject<List<VentaResponseDto>>(contenido) ?? new List<VentaResponseDto>();
+                }
+            }
+
+            return View("lista-ventas", listado.OrderByDescending(v => v.FechaVenta).ToList());
+        }
+
+        [HttpGet("detalle-venta/{id}")]
+        public async Task<IActionResult> DetalleVenta(int id)
+        {
+            VentaResponseDto? venta = null;
+
+            using (HttpClient cliente = new HttpClient())
+            {
+                var rpta = await cliente.GetAsync($"{_apiVentas}/GetVenta/{id}");
+                if (rpta.IsSuccessStatusCode)
+                {
+                    string contenido = await rpta.Content.ReadAsStringAsync();
+                    venta = JsonConvert.DeserializeObject<VentaResponseDto>(contenido);
+                }
+            }
+
+            if (venta == null) return NotFound();
+
+            return View("detalle-venta", venta);
+        }
     }
 }

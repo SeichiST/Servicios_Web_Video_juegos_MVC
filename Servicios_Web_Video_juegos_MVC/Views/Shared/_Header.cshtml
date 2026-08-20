@@ -136,7 +136,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
     <script>
-        const nombreUsuario = "@correoActual";
+        const nombreUsuario = "@Html.Raw(nombreMostrar)";
 
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("/chatHub")

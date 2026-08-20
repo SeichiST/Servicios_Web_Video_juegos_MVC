@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Servicios_Web_Video_juegos_MVC.Filters;
 using Servicios_Web_Video_juegos_MVC.Helper;
 using Servicios_Web_Video_juegos_MVC.Models;
@@ -42,8 +43,22 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> GenerarVenta()
         {
-            var idClienteObj = HttpContext.Session.GetInt32("IdCliente");
-            if (idClienteObj == null)
+            int? idClienteObj = HttpContext.Session.GetInt32("IdCliente");
+            if (idClienteObj == null || idClienteObj == 0)
+            {
+                var clienteJson = HttpContext.Session.GetString("DatosClienteJson");
+                if (!string.IsNullOrWhiteSpace(clienteJson) && clienteJson != "undefined")
+                {
+                    try
+                    {
+                        var json = JObject.Parse(clienteJson);
+                        idClienteObj = (int?)json["idCliente"] ?? (int?)json["IdCliente"];
+                    }
+                    catch { }
+                }
+            }
+
+            if (idClienteObj == null || idClienteObj == 0)
             {
                 return RedirectToAction("Index", "Login");
             }
@@ -85,7 +100,7 @@ namespace Servicios_Web_Video_juegos_MVC.Controllers
 
                 CarritoHelper.GuardarCarrito(HttpContext.Session, new List<CarritoItem>());
                 TempData["mensaje"] = "Tu compra se registró correctamente. ¡Gracias por tu pedido!";
-                TempData["exito"] = "1"; // <-- marca de éxito para el SweetAlert
+                TempData["exito"] = "1";
             }
 
             return RedirectToAction("VerCarrito");
